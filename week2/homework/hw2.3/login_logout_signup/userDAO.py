@@ -45,7 +45,7 @@ class UserDAO:
 
     def make_pw_hash(self, pw,salt=None):
         if salt == None:
-            salt = self.make_salt();
+            salt = self.make_salt()
         return hashlib.sha256(pw + salt).hexdigest()+","+ salt
 
     # Validates a user login. Returns user record or None
@@ -55,6 +55,9 @@ class UserDAO:
         try:
             # XXX HW 2.3 Students Work Here
             # you will need to retrieve right document from the users collection.
+            query = {'_id':username}
+            user = self.users.find_one(query)
+
             print "This space intentionally left blank."
         except:
             print "Unable to query database for user"
@@ -85,16 +88,17 @@ class UserDAO:
             # XXX HW 2.3 Students work here
             # You need to insert the user into the users collection.
             # Don't over think this one, it's a straight forward insert.
-
+            self.users.insert_one(user)
             print "This space intentionally left blank."
+            
+        except pymongo.errors.DuplicateKeyError:
+            print "oops, username is already taken"
+            return False
 
         except pymongo.errors.OperationFailure:
             print "oops, mongo error"
             return False
-        except pymongo.errors.DuplicateKeyError as e:
-            print "oops, username is already taken"
-            return False
-
+        
         return True
 
 
