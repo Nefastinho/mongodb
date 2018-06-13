@@ -45,7 +45,7 @@ class UserDAO:
 
     def make_pw_hash(self, pw,salt=None):
         if salt == None:
-            salt = self.make_salt();
+            salt = self.make_salt()
         return hashlib.sha256(pw + salt).hexdigest()+","+ salt
 
     # Validates a user login. Returns user record or None
@@ -81,11 +81,12 @@ class UserDAO:
 
         try:
             self.users.insert_one(user)
-        except pymongo.errors.OperationFailure:
-            print "oops, mongo error"
-            return False
         except pymongo.errors.DuplicateKeyError as e:
             print "oops, username is already taken"
+            return False
+
+        except pymongo.errors.OperationFailure:
+            print "oops, mongo error"
             return False
 
         return True
