@@ -14,15 +14,14 @@ def remove_lowest_homework():
 
         for doc in docs:
             id = doc["_id"]            
-            scores = drop_lowest_homework(doc)
+            scores = drop_lowest_homework(doc["scores"])
             students.update_one({"_id":id},{"$set": {"scores":scores}}) 
             print "Updated student with id:",id           
 
     except Exception:
         raise
 
-def drop_lowest_homework(student):
-    scores = student["scores"]
+def drop_lowest_homework(scores):    
     # sort list by score
     sorted_scores = sorted(scores, key=lambda x: x["score"])
     for score in sorted_scores:
