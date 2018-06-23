@@ -1,0 +1,3 @@
+db.sysprofile.find({'ns':'school2.students'},{'ns':1,'millis':1}).sort({'millis':-1})
+
+15820
