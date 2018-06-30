@@ -1,10 +1,8 @@
 db.grades.aggregate([
 	{"$unwind":"$scores"},
 
-	{"$match": { "$or":[
-		{"scores.type":"exam"},
-		{"scores.type":"homework"}
-	]}},
+	{ $match: 
+		{"scores.type":{"$in":["homework","exam"]}}},
 
 	{"$group":
 		{"_id":{"class_id":"$class_id",
