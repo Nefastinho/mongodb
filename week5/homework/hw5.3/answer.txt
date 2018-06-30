@@ -1,0 +1,20 @@
+db.grades.aggregate([
+	{"$unwind":"$scores"},
+
+	{"$match": { "$or":[
+		{"scores.type":"exam"},
+		{"scores.type":"homework"}
+	]}},
+
+	{"$group":
+		{"_id":{"class_id":"$class_id",
+				"student_id":"$student_id"},
+		"student_avg":{"$avg":"$scores.score"}}},
+
+	{"$group":
+		{"_id":"$_id.class_id",
+		"class_avg":{"$avg":"$student_avg"}}},
+
+	{"$sort":{"class_avg":-1}},
+	{"$limit":1}
+])
