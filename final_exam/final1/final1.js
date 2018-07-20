@@ -1,0 +1,1 @@
+db.messages.find({"headers.From":"andrew.fasstow@enron.com","headers.To":"jeff.skilling@enron.com"}).count()
